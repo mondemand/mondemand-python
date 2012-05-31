@@ -9,10 +9,6 @@
 #include "mondemand_transport.h"
 #include "mondemandlib.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #define M_MESSAGE_MAX 2048
 #define M_MAX_MESSAGES 10
 
@@ -37,8 +33,15 @@ struct m_log_message
   char message[M_MESSAGE_MAX+1];
   struct mondemand_trace_id trace_id;
 };
-
 %}
+
+#include "config.h"
+
+%include "m_mem.h"
+%include "m_hash.h"
+%include "mondemand_trace.h"
+%include "mondemand_transport.h"
+%include "mondemandlib.h"
 
 struct mondemand_client
 {
@@ -61,12 +64,6 @@ struct m_log_message
   char message[M_MESSAGE_MAX+1];
   struct mondemand_trace_id trace_id;
 };
-
-int 
-mondemand_dispatch_logs(struct mondemand_client *client);
-
-int 
-mondemand_dispatch_stats(struct mondemand_client *client);
 
 struct mondemand_client *
 mondemand_client_create(const char *program_identifier);

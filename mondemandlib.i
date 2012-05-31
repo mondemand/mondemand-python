@@ -15,7 +15,6 @@
 
 #define M_MESSAGE_MAX 2048
 #define M_MAX_MESSAGES 10
-%}
 
 struct mondemand_client
 {
@@ -39,6 +38,29 @@ struct m_log_message
   struct mondemand_trace_id trace_id;
 };
 
+%}
+
+struct mondemand_client
+{
+  char *prog_id;
+  int immediate_send_level;
+  int no_send_level;
+  struct m_hash_table *contexts;
+  struct m_hash_table *messages;
+  struct m_hash_table *stats;
+  int num_transports;
+  struct mondemand_transport **transports;
+};
+
+struct m_log_message
+{
+  char filename[FILENAME_MAX+1];
+  int line;
+  int level;
+  int repeat_count;
+  char message[M_MESSAGE_MAX+1];
+  struct mondemand_trace_id trace_id;
+};
 
 int 
 mondemand_dispatch_logs(struct mondemand_client *client);
@@ -123,5 +145,3 @@ mondemand_dispatch_logs(struct mondemand_client *client);
 
 int
 mondemand_dispatch_stats(struct mondemand_client *client);
-
- 

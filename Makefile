@@ -7,4 +7,4 @@ all:
 	gcc -fPIC $(CFLAGS) -I/opt/include/python2.6 -c mondemand_wrap.c 
 	ld -shared mondemand_wrap.o -o _mondemand.so $(LIBS)
 clean:
-	rm -rf *.o *.so *.py *.pyc *_wrap.c
+	rm -rf *.o *.so mondemand.py *.pyc *_wrap.c

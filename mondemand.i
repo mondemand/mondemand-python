@@ -183,7 +183,7 @@ transport_lwes_create(const char *address, const int port,
 int
 stats_inc(struct mondemand_client *client, 
                     const char *filename, const int line, 
-                    const char *key, const MStatCounter value)
+                    const char *key, const long value)
 {
   return mondemand_stats_perform_op (client, filename, line,
     MONDEMAND_INC, MONDEMAND_COUNTER, key, value);
@@ -192,7 +192,7 @@ stats_inc(struct mondemand_client *client,
 int
 stats_dec(struct mondemand_client *client, const char *filename,
                     const int line, const char *key, 
-                    const MStatCounter value)
+                    const long value)
 {
   return mondemand_stats_perform_op (client, filename, line,
     MONDEMAND_DEC, MONDEMAND_COUNTER, key, value * (-1));
@@ -201,7 +201,7 @@ stats_dec(struct mondemand_client *client, const char *filename,
 int
 stats_set(struct mondemand_client *client, const char *filename,
                     const int line, const char *key, 
-                    const MStatCounter value)
+                    const long value)
 {
   return mondemand_stats_perform_op(client, filename, line, 
     MONDEMAND_SET, MONDEMAND_GAUGE, key, value);

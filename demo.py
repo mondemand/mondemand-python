@@ -1,10 +1,10 @@
 import mondemand
 
 # create the client
-client = mondemand.client_create("my_application")
+client = mondemand.client_create("python_client")
   
 # create a transport to send data
-transport = mondemand.transport_lwes_create("10.1.37.27", 9191, None, 0, 60)
+transport = mondemand.transport_lwes_create("10.1.37.27", 20402, None, 0, 60)
 
 # attach the transport to the client
 mondemand.add_transport(client, transport)

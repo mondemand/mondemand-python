@@ -1,13 +1,16 @@
 %module mondemand
 %{
     #include "mondemand.h"
+    #define MONDEMAND_UNKNOWN 0
+    #define MONDEMAND_GAUGE   1
+    #define MONDEMAND_COUNTER 2
+    #define MONDEMAND_INC     0
+    #define MONDEMAND_DEC     1
+    #define MONDEMAND_SET     2
     typedef long long MStatCounter;
 %}
 
-%include "mondemand.h"
 %inline %{
-
-typedef long long MStatCounter;
 
 struct mondemand_client *
 client_create(const char *program_identifier) 
@@ -182,8 +185,8 @@ stats_inc(struct mondemand_client *client,
                     const char *filename, const int line, 
                     const char *key, const MStatCounter value)
 {
-  return mondemand_stats_inc(client, filename, line, 
-    key, value);
+  return mondemand_stats_perform_op (client, filename, line,
+    MONDEMAND_INC, MONDEMAND_COUNTER, key, value);
 }
 
 int
@@ -191,8 +194,8 @@ stats_dec(struct mondemand_client *client, const char *filename,
                     const int line, const char *key, 
                     const MStatCounter value)
 {
-  return mondemand_stats_inc(client, filename, line, key, 
-    value * (-1));
+  return mondemand_stats_perform_op (client, filename, line,
+    MONDEMAND_DEC, MONDEMAND_COUNTER, key, value * (-1));
 }
 
 int
@@ -200,7 +203,8 @@ stats_set(struct mondemand_client *client, const char *filename,
                     const int line, const char *key, 
                     const MStatCounter value)
 {
-  return mondemand_stats_set(client, filename, line, key, value);
+  return mondemand_stats_perform_op(client, filename, line, 
+    MONDEMAND_SET, MONDEMAND_GAUGE, key, value);
 }
 
 %}

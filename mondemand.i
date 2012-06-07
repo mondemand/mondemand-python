@@ -89,11 +89,3 @@ struct mondemand_transport *
 mondemand_transport_lwes_create(const char *address, const int port,
                                const char *interface, int emit_heartbeat,
                                int heartbeat_frequency);
-int
-mondemand_stats_dec(struct mondemand_client *client, const char *filename,
-                    const int line, const char *key, const MStatCounter value)
-
-int
-mondemand_stats_set(struct mondemand_client *client, const char *filename,
-                    const int line, const char *key, const MStatCounter value);
-

@@ -1,91 +1,220 @@
 %module mondemand
 %{
     #include "mondemand.h"
+    typedef long long MStatCounter;
 %}
 
+typedef long long MStatCounter;
+
 struct mondemand_client *
-mondemand_client_create(const char *program_identifier);
+client_create(const char *program_identifier) 
+{
+  return mondemand_client_create(const char *program_identifier);
+}
 
 void 
-mondemand_client_destroy(struct mondemand_client *client);
+client_destroy(struct mondemand_client *client)
+{
+  return mondemand_client_destroy(struct mondemand_client *client);
+}
 
 void
-mondemand_set_immediate_send_level(struct mondemand_client *client,
-                                   const int level);
+set_immediate_send_level(struct mondemand_client *client,
+                                   const int level)
+{
+  return mondemand_set_immediate_send_level(
+    struct mondemand_client *client, const int level);
+}
 
 void
-mondemand_set_no_send_level(struct mondemand_client *client, const int level);
+set_no_send_level(struct mondemand_client *client, const int level)
+{
+  return mondemand_set_no_send_level(struct mondemand_client *client, 
+    const int level);
+}
 
 const char *
-mondemand_get_context(struct mondemand_client *client, const char *key);
+get_context(struct mondemand_client *client, const char *key)
+{
+  return mondemand_get_context(struct mondemand_client *client, 
+    const char *key);
+}
 
 const char **
-mondemand_get_context_keys(struct mondemand_client *client);
+get_context_keys(struct mondemand_client *client)
+{
+  return mondemand_get_context_keys(struct mondemand_client *client);
+}
 
 int
-mondemand_set_context(struct mondemand_client *client,
+set_context(struct mondemand_client *client, const char *key, 
+                      const char *value)
+{
+  return mondemand_set_context(struct mondemand_client *client,
                       const char *key, const char *value);
+}
+                      
 
 void
-mondemand_remove_context(struct mondemand_client *client, const char *key);
+remove_context(struct mondemand_client *client, const char *key)
+{
+  return mondemand_remove_context(struct mondemand_client *client, 
+    const char *key);
+}
 
 void
-mondemand_remove_all_contexts(struct mondemand_client *client);
+remove_all_contexts(struct mondemand_client *client)
+{
+  return mondemand_remove_all_contexts(struct mondemand_client *client);
+}
 
 int
-mondemand_add_transport(struct mondemand_client *client,
+add_transport(struct mondemand_client *client,
+                        struct mondemand_transport *transport)
+{
+  return mondemand_add_transport(struct mondemand_client *client,
                         struct mondemand_transport *transport);
+}
 
 int
-mondemand_level_is_enabled(struct mondemand_client *client,
+level_is_enabled(struct mondemand_client *client,
                            const int log_level);
-int 
-mondemand_flush_logs(struct mondemand_client *client);
+{
+  return mondemand_level_is_enabled(struct mondemand_client *client,
+                           const int log_level);
+}
 
 int 
-mondemand_flush_stats(struct mondemand_client *client);
+flush_logs(struct mondemand_client *client)
+{
+  return mondemand_flush_logs(struct mondemand_client *client);
+}
 
 int 
-mondemand_reset_stats (struct mondemand_client *client);
+flush_stats(struct mondemand_client *client)
+{
+  return mondemand_flush_stats(struct mondemand_client *client);
+}
 
 int 
-mondemand_flush(struct mondemand_client *client);
+reset_stats(struct mondemand_client *client)
+{
+  return mondemand_reset_stats(struct mondemand_client *client);
+}
 
 int 
-mondemand_log_level_from_string (const char *level);
+flush(struct mondemand_client *client)
+{
+  return mondemand_flush(struct mondemand_client *client);
+}
+
+int 
+log_level_from_string(const char *level)
+{
+  return mondemand_log_level_from_string(const char *level);
+}
 
 MondemandStatType 
-mondemand_stat_type_from_string (const char *type);
+stat_type_from_string(const char *type)
+{
+  return mondemand_stat_type_from_string(const char *type);
+}
 
 int
-mondemand_initialize_trace (struct mondemand_client *client,
+initialize_trace(struct mondemand_client *client,
                             const char *owner,
                             const char *trace_id,
-                            const char *message);
+                            const char *message)
+{
+  return mondemand_initialize_trace(
+    struct mondemand_client *client,
+    const char *owner,
+    const char *trace_id,
+    const char *message);
+}                           
 
 void
-mondemand_clear_trace (struct mondemand_client *client);
+clear_trace(struct mondemand_client *client)
+{
+  return mondemand_clear_trace(struct mondemand_client *client);
+}
 
 const char *
-mondemand_get_trace (struct mondemand_client *client, const char *key);
+get_trace(struct mondemand_client *client, const char *key)
+{
+  return mondemand_get_trace(struct mondemand_client *client, 
+    const char *key);
+}
 
 const char **
-mondemand_get_trace_keys (struct mondemand_client *client);
+get_trace_keys(struct mondemand_client *client)
+{
+  return mondemand_get_trace_keys(struct mondemand_client *client);
+}
 
 int
-mondemand_set_trace (struct mondemand_client *client,
+set_trace(struct mondemand_client *client,
+                     const char *key, const char *value)
+{
+  return mondemand_set_trace(struct mondemand_client *client,
                      const char *key, const char *value);
+}
 
 void
-mondemand_remove_trace (struct mondemand_client *client, const char *key);
+remove_trace(struct mondemand_client *client, const char *key)
+{
+  return mondemand_remove_trace(struct mondemand_client *client, 
+    const char *key);
+}
 
 void
-mondemand_remove_all_traces (struct mondemand_client *client);
+remove_all_traces(struct mondemand_client *client)
+{
+  return mondemand_remove_all_traces(struct mondemand_client *client);
+}
 
 int
-mondemand_flush_trace(struct mondemand_client *client);
+flush_trace(struct mondemand_client *client)
+{
+  return mondemand_flush_trace(struct mondemand_client *client);
+}
 
 struct mondemand_transport *
-mondemand_transport_lwes_create(const char *address, const int port,
+transport_lwes_create(const char *address, const int port,
+                               const char *interface, int emit_heartbeat,
+                               int heartbeat_frequency)
+{
+  return mondemand_transport_lwes_create(const char *address, const int port,
                                const char *interface, int emit_heartbeat,
                                int heartbeat_frequency);
+}
+
+int
+stats_inc(struct mondemand_client *client, 
+                    const char *filename, const int line, 
+                    const char *key, const MStatCounter value)
+{
+  return mondemand_stats_inc(struct mondemand_client *client, 
+                    const char *filename, const int line, 
+                    const char *key, const MStatCounter value);
+}
+
+int
+stats_dec(struct mondemand_client *client, const char *filename,
+                    const int line, const char *key, 
+                    const MStatCounter value)
+{
+  return mondemand_stats_dec(struct mondemand_client *client, 
+    const char *filename, const int line, const char *key, 
+    const MStatCounter value);
+}
+
+int
+stats_set(struct mondemand_client *client, const char *filename,
+                    const int line, const char *key, 
+                    const MStatCounter value)
+{
+  return mondemand_stats_set(struct mondemand_client *client, 
+    const char *filename, const int line, const char *key, 
+    const MStatCounter value);
+}

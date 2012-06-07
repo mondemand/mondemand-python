@@ -6,7 +6,8 @@
 struct mondemand_client *
 mondemand_client_create(const char *program_identifier);
 
-void mondemand_client_destroy(struct mondemand_client *client);
+void 
+mondemand_client_destroy(struct mondemand_client *client);
 
 void
 mondemand_set_immediate_send_level(struct mondemand_client *client,
@@ -38,18 +39,23 @@ mondemand_add_transport(struct mondemand_client *client,
 int
 mondemand_level_is_enabled(struct mondemand_client *client,
                            const int log_level);
+int 
+mondemand_flush_logs(struct mondemand_client *client);
 
-int mondemand_flush_logs(struct mondemand_client *client);
+int 
+mondemand_flush_stats(struct mondemand_client *client);
 
-int mondemand_flush_stats(struct mondemand_client *client);
+int 
+mondemand_reset_stats (struct mondemand_client *client);
 
-int mondemand_reset_stats (struct mondemand_client *client);
+int 
+mondemand_flush(struct mondemand_client *client);
 
-int mondemand_flush(struct mondemand_client *client);
+int 
+mondemand_log_level_from_string (const char *level);
 
-int mondemand_log_level_from_string (const char *level);
-
-MondemandStatType mondemand_stat_type_from_string (const char *type);
+MondemandStatType 
+mondemand_stat_type_from_string (const char *type);
 
 int
 mondemand_initialize_trace (struct mondemand_client *client,
@@ -78,4 +84,16 @@ mondemand_remove_all_traces (struct mondemand_client *client);
 
 int
 mondemand_flush_trace(struct mondemand_client *client);
+
+struct mondemand_transport *
+mondemand_transport_lwes_create(const char *address, const int port,
+                               const char *interface, int emit_heartbeat,
+                               int heartbeat_frequency);
+int
+mondemand_stats_dec(struct mondemand_client *client, const char *filename,
+                    const int line, const char *key, const MStatCounter value)
+
+int
+mondemand_stats_set(struct mondemand_client *client, const char *filename,
+                    const int line, const char *key, const MStatCounter value);
 

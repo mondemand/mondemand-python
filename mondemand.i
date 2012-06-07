@@ -191,7 +191,8 @@ stats_dec(struct mondemand_client *client, const char *filename,
                     const int line, const char *key, 
                     const MStatCounter value)
 {
-  return mondemand_stats_dec(client, filename, line, key, value);
+  return mondemand_stats_inc(client, filename, line, key, 
+    value * (-1));
 }
 
 int
@@ -201,3 +202,5 @@ stats_set(struct mondemand_client *client, const char *filename,
 {
   return mondemand_stats_set(client, filename, line, key, value);
 }
+
+%}

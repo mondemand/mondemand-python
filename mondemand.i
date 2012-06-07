@@ -4,6 +4,9 @@
     typedef long long MStatCounter;
 %}
 
+%include "mondemand.h"
+%inline %{
+
 typedef long long MStatCounter;
 
 struct mondemand_client *

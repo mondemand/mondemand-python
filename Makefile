@@ -1,6 +1,10 @@
+PKG_CONFIG_PATH=/usr/lib/pkgconfig
+CFLAGS=`PKG_CONFIG_PATH=/usr/lib/pkgconfig pkg-config mondemand-4.0 --cflags`
+LIBS=`PKG_CONFIG_PATH=/usr/lib/pkgconfig pkg-config mondemand-4.0 --libs`
+
 all:
-	swig -python mondemandlib.i
-	gcc -fpic -I/opt/include/python2.6 -c mondemandlib.c mondemandlib_wrap.c 
-	ld -shared mondemandlib.o mondemandlib_wrap.o -o _mondemandlib.so
+	swig -python mondemand.i
+	gcc -fpic $(CFLAGS) -I/opt/include/python2.6 -c mondemand_wrap.c 
+	ld -shared mondemand_wrap.o -o _mondemand.so $(LIBS)
 clean:
 	rm -rf *.o *.so *.py *.pyc *_wrap.c

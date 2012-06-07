@@ -10,7 +10,7 @@ transport = mondemand.transport_lwes_create("10.1.37.27", 9191, None, 0, 60)
 mondemand.add_transport(client, transport)
 
 # add some contextual information to the client
-mondemand.set_context(client, "cluster_id", "keith_test_cluster")
+mondemand.set_context(client, "cluster_id", "12345")
 
 # log some stats
 mondemand.stats_set(client, "filename.py", 1, "stat_1", 1234)

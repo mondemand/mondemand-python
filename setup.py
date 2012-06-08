@@ -15,8 +15,6 @@ def pkgconfig(*packages, **kw):
         else:
             kw.setdefault('extra_link_args', []).append(token)
     for k, v in kw.iteritems():
-        syslog.syslog(syslog.LOG_ERR, k)
-        syslog.syslog(syslog.LOG_ERR, str(v))
         kw[k] = list(set(v))
     kw['library_dirs'].append('/opt/lib64')
     return kw

@@ -4,32 +4,68 @@
 setup.py file for Mondemand binding
 """
 
-from distutils.core import setup, Extension
-import commands, syslog
+from distutils import sysconfig
+from distutils import log
+from distutils.core import setup
+from distutils.core import Command
 
-def pkgconfig(*packages, **kw):
-    flag_map = {'-I': 'include_dirs', '-L': 'library_dirs', '-l': 'libraries'}
-    for token in commands.getoutput("PKG_CONFIG_PATH=/usr/lib/pkgconfig pkg-config --libs --cflags %s" % ' '.join(packages)).split():
-        if flag_map.has_key(token[:2]):
-	    kw.setdefault(flag_map.get(token[:2]), []).append(token[2:])
-        else:
-            kw.setdefault('extra_link_args', []).append(token)
-    for k, v in kw.iteritems():
-        kw[k] = list(set(v))
-    kw['library_dirs'].append('/opt/lib64')
-    return kw
+import os
+from subprocess import call, Popen, PIPE
 
-mondemand_module = Extension('_mondemand',
-                             sources=['mondemand_wrap.c'],
-                             **pkgconfig('mondemand-4.0')
-                             )
+BASEPATH = os.path.dirname(os.path.abspath(__file__))
+USER_OPTIONS = [('bs', None, None)]
 
-setup(name='mondemand',
-      version = '0.0.1',
-      author = "Keith Miller",
-      author_email = "keith.miller@openx.com", 
-      description = """Python bindings for Mondemand""",
-      url='http://www.mondemand.org',
-      ext_modules = [mondemand_module],
-      py_modules = ["mondemand"]
-      )
+def runner(cmd, skip_errors=False):
+    resp = Popen(cmd,
+                 cwd=BASEPATH, stdout=PIPE, stderr=PIPE).communicate()
+    log.info(resp[0])
+    if resp[1] and not skip_errors:
+        log.error(resp[1])
+
+class MakeCommand(Command):
+    user_options = USER_OPTIONS
+    def initialize_options(self):
+        pass
+    def finalize_options(self):
+        pass
+
+class MakeAll(MakeCommand):
+    def run(self):
+        runner(['make', 'all'])
+
+class MakeBuild(MakeCommand):
+    user_options = USER_OPTIONS
+    def run(self):
+        runner(['make', 'build'])
+
+class MakeInstall(MakeCommand):
+    user_options = USER_OPTIONS
+    def run(self):
+        runner(['make', 'install'])
+
+class MakeClean(MakeCommand):
+    user_options = USER_OPTIONS
+    def run(self):
+        runner(['make', 'clean'], skip_errors=True)
+
+setup(
+    name='mondemand',
+    version='0.0.2',
+    description='MonDemand python bindings',
+    license='BSD',
+    url='http://www.mondemand.org/',
+    long_description=open(os.path.join(os.path.dirname(__file__), 'README.md')).read(),
+    classifiers=[
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: BSD License',
+        'Operating System :: Unix',
+        'Programming Language :: Python',
+    ],
+
+    cmdclass={
+        'all': MakeAll,
+        'build': MakeBuild,
+        'install': MakeInstall,
+        'clean': MakeClean,
+    }
+)

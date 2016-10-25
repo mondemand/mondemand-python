@@ -1,4 +1,5 @@
 %module mondemand
+%feature("autodoc", "1");
 %{
     #include "mondemand.h"
     #define MONDEMAND_UNKNOWN 0
@@ -9,6 +10,36 @@
     #define MONDEMAND_SET     2
     typedef long long MStatCounter;
 %}
+
+// This tells SWIG to treat char ** as a special case, needed for the
+// char ** in flush_annotations. See goo.gl/EfhRZr
+%typemap(in) char ** {
+  /* Check if is a list */
+  if (PyList_Check($input)) {
+    int size = PyList_Size($input);
+    int i = 0;
+    $1 = (char **) malloc((size+1)*sizeof(char *));
+    for (i = 0; i < size; i++) {
+      PyObject *o = PyList_GetItem($input,i);
+      if (PyString_Check(o))
+        $1[i] = PyString_AsString(PyList_GetItem($input,i));
+      else {
+        PyErr_SetString(PyExc_TypeError,"list must contain strings");
+        free($1);
+        return NULL;
+      }
+    }
+    $1[i] = 0;
+  } else {
+    PyErr_SetString(PyExc_TypeError,"not a list");
+    return NULL;
+  }
+}
+
+// This cleans up the char ** array we malloc'd before the function call
+%typemap(freearg) char ** {
+  free((char *) $1);
+}
 
 %inline %{
 
@@ -205,6 +236,47 @@ stats_set(struct mondemand_client *client, const char *filename,
 {
   return mondemand_stats_perform_op(client, filename, line, 
     MONDEMAND_SET, MONDEMAND_GAUGE, key, value);
+}
+
+int
+initialize_performance_trace (struct mondemand_client *client,
+                              const char *id,
+                              const char *caller_label)
+{
+  return mondemand_initialize_performance_trace(client, id, caller_label);
+}
+
+int
+add_performance_trace_timing (struct mondemand_client *client,
+                              const char *label,
+                              const long long int start,
+                              const long long int end)
+{
+  return mondemand_add_performance_trace_timing(client, label, start, end);
+}
+
+void
+clear_performance_trace (struct mondemand_client *client)
+{
+  return mondemand_clear_performance_trace(client);
+}
+
+int
+flush_performance_trace(struct mondemand_client *client)
+{
+  return mondemand_flush_performance_trace(client);
+}
+
+int
+flush_annotation (const char* id,
+                  const long long int timestamp,
+                  const char* description,
+                  const char* text,
+                  const char** tags,
+                  const int num_tags,
+                  struct mondemand_client *client)
+{
+  return mondemand_flush_annotation(id, timestamp, description, text, tags, num_tags, client);
 }
 
 %}

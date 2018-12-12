@@ -7,7 +7,7 @@ REQUIREMENTS
 INSTALL
 =======
 
-Run `pip install .`
+Run `pip install mondemand`
 
 Example Run
 ===========

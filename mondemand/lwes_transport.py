@@ -1,5 +1,7 @@
 from __future__ import absolute_import
 
+from typing import AnyStr, Optional
+
 from ._mondemand import ffi, lib
 from .utils import text_to_cstring
 
@@ -7,6 +9,7 @@ from .utils import text_to_cstring
 class LwesTransport(object):
 	def __init__(self, address, port, interface=None, heartbeat_flag=0,
 			heartbeat_frequency=0, ttl=30):
+		# type: (AnyStr, int, Optional[AnyStr], int, int, int) -> None
 
 		transport = lib.mondemand_transport_lwes_create_with_ttl(
 			text_to_cstring(address), port, text_to_cstring(interface) if interface else ffi.NULL,
